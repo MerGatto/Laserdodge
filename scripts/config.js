@@ -1,5 +1,5 @@
 //Debugmodus
-var debug = false;
+var debug = true;
 
 //Gamespeed in FPS
 var GAMESPEED = 125;
