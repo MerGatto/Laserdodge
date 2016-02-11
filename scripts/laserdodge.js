@@ -215,7 +215,6 @@ function StartGame() {
         else {
             useDevOr = false;
         }
-        console.log(useDevOr);
         gameOver = false;
         pause = false;
         document.getElementById("welcomeScreen").style.visibility = "hidden";
@@ -226,6 +225,10 @@ function StartGame() {
         txtCt.textContent = ct;
         init();
         setTimeout(DoCountDown, 1000);
+
+        if (debug) {
+            DrawDebugInfo();
+        }
     }
 }
 
@@ -604,6 +607,7 @@ function DrawDebugInfo() {
     text.innerHTML += "gp right: " + gpCtr.right + " <br>";
     text.innerHTML += "gp x: " + gpCtr.x + " <br>";
     text.innerHTML += "gp y: " + gpCtr.y + " <br>";
+    text.innerHTML += "DevOr enabled: " + useDevOr + " <br>";
     text.innerHTML += "Orient absolute: " + orientControl.absolute + " <br>";
     text.innerHTML += "Orient alpha: " + orientControl.alpha + " <br>";
     text.innerHTML += "Orient beta: " + orientControl.beta + " <br>";
