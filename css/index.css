@@ -1,0 +1,157 @@
+﻿html {
+    background-image: url("../img/background.jpg");
+    background-size: cover;
+
+}
+
+body {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+}
+
+#headline {
+    width: 120vw;
+    padding: 10px;
+    margin-left: -10vw;
+    margin-top: -10px;
+    text-align: center;
+    vertical-align: middle;
+    color: darkblue;
+    background-color: lavender;
+    border-bottom: black 2px solid;
+}
+
+#headline h1 {
+    margin: 0 auto;
+    top: 0;
+    bottom: 0;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#footer {
+    position: absolute;
+    clear:left;
+    width: 120vw;
+    height: 20px;
+    margin-left: -10vw;
+    padding:10px;
+    background-color: lavender;
+    bottom: 0;
+    text-align: left;
+    border-top: black 2px solid;
+}
+
+#footer small {
+    margin-left: 10vw;
+}
+
+.centered {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+	width: 80vh;
+    height: 80vh;
+    margin: 0 auto;
+    display: block;
+    border: 1px solid black;
+}
+
+#playground:-webkit-full-screen {
+    top: 0;
+    width:100vh;
+    height: 100vh;
+}
+
+#playground:-moz-full-screen {
+    top: 0;
+    width:100vh;
+    height: 100vh;
+}
+
+#playground:-ms-fullscreen {
+    top: 0;
+    width:100vh;
+    height: 100vh;
+}
+
+#playground:fullscreen {
+    top: 0;
+    width:100vh;
+    height: 100vh;
+}
+
+
+.btnStart:hover {
+    cursor:pointer;
+}
+
+.btnStart:hover > rect {
+    fill: DeepSkyBlue;
+}
+
+#btnFscr:hover {
+    cursor: pointer;
+}
+
+#cbOrient:hover {
+    cursor: pointer;
+}
+
+#btnFscr:hover > rect {
+    fill: gray;
+}
+
+
+#debug {
+    position: fixed;
+    float: left;
+    width: 25%;
+}
+
+@media all and (orientation:portrait) {
+    .centered {
+	    width: 80vw;
+        height: 80vw;
+    }
+
+    
+    #playground:-webkit-full-screen {
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width:100vw;
+        height: 100vw;
+    }
+
+    #playground:-moz-full-screen {
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width:100vw;
+        height: 100vw;
+    }
+
+    #playground:-ms-fullscreen {
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width:100vw;
+        height: 100vw;
+    }
+
+    #playground:fullscreen {
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width:100vw;
+        height: 100vw;
+    }
+}
+
+@media all and (orientation:landscape) and  (max-height: 500px) {
+    #footer {
+        visibility: hidden;
+    }
+}
