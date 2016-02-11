@@ -201,6 +201,10 @@ window.onload = function () {
     if (window.mobilecheck()) {
         CBOrientClicked();
     }
+
+    if (debug) {
+        setInterval(DrawDebugInfo, 100);
+    }
     
 }
 
@@ -229,10 +233,6 @@ function StartGame() {
         txtCt.textContent = ct;
         init();
         setTimeout(DoCountDown, 1000);
-
-        if (debug) {
-            DrawDebugInfo();
-        }
     }
 }
 
@@ -314,9 +314,6 @@ function gameloop() {
         MoveMine();
         CrashDetection();
     }
-    if (debug) {
-        DrawDebugInfo();
-    }
     if (gameOver) {
         GameOver();
     }
@@ -326,7 +323,6 @@ function PauseGame() {
     if (!gameOver) {
         pause = !pause;
         if (pause) {
-            console.log(spawnClockTimer);
             spawnClockTimer.pause();
             spawnMineTimer.pause();
         }
@@ -411,9 +407,14 @@ function SpawnClock() {
     clock = document.createElementNS("http://www.w3.org/2000/svg", "use");
     clock.setAttribute("x", x);
     clock.setAttribute("y", y);
+    clock.setAttribute("width", "24");
+    clock.setAttribute("width", "24");
     clock.setAttributeNS("http://www.w3.org/1999/xlink", "href", "#clock");
 
     gameField.appendChild(clock);
+    clock.animate([
+      { transform: 'rotate(360deg)' },
+    ], clockDespawntime);
 
     if (spawnClockTimer != null) {
         spawnClockTimer.pause();
@@ -432,6 +433,12 @@ function DespawnClock() {
         spawnClockTimer = null;
     }
     spawnClockTimer = new Timer(SpawnClock, clockSpawntime);
+}
+
+function ClockAnimation(e) {
+    e.animate([
+      { transform: 'rotate(360deg)' },
+    ], clockDespawntime);
 }
 
 //Prüft auf Kollisionen mit allen Objekten
@@ -601,6 +608,16 @@ function DrawDebugInfo() {
     text.innerHTML += "yPos: " + Math.round(player.yPos*100)/100 + "<br>";
     text.innerHTML += "laser speed x: " + Math.round(laser.speed.x * 100) / 100 + " <br>";
     text.innerHTML += "laser speed y: " + Math.round(laser.speed.y * 100) / 100 + " <br>";
+    if (spawnMineTimer == null) {
+        text.innerHTML += "spawnMineTimer: " + "null" + " <br>";
+    } else {
+        text.innerHTML += "spawnMineTimer: " + spawnMineTimer.timerId + " <br>";
+    }
+    if (spawnClockTimer == null) {
+        text.innerHTML += "spawnClockTimer: " + "null" + " <br>";
+    } else {
+        text.innerHTML += "spawnClockTimer: " + spawnClockTimer.timerId + " <br>";
+    }
     text.innerHTML += "control up: " + control.up + " <br>";
     text.innerHTML += "control down: " + control.down + " <br>";
     text.innerHTML += "control left: " + control.left + " <br>";

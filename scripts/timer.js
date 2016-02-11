@@ -1,15 +1,15 @@
 function Timer(callback, delay) {
-    var timerId, start, remaining = delay;
+    var start, remaining = delay;
 
     this.pause = function () {
-        window.clearTimeout(timerId);
+        window.clearTimeout(this.timerId);
         remaining -= new Date() - start;
     };
 
     this.resume = function () {
         start = new Date();
-        window.clearTimeout(timerId);
-        timerId = window.setTimeout(callback, remaining);
+        window.clearTimeout(this.timerId);
+        this.timerId = window.setTimeout(callback, remaining);
     };
 
     this.resume();
