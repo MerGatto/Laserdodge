@@ -161,7 +161,6 @@ function handleOrientation(event) {
 
 function reportOnGamepad() {
     if (useGP) {
-        for(i = 0; i < )
         var gp = navigator.getGamepads()[0];
 
         gpCtr.x = Math.abs(gp.axes[0]);
