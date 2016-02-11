@@ -197,6 +197,14 @@ window.onload = function () {
     $('.btnStart').click(StartGame);
     $('#btnFscr').click(ChangeFullScreen);
     $('#cbOrient').click(CBOrientClicked);
+
+    if (window.mobilecheck()) {
+        CBOrientClicked();
+    }
+
+    if (debug) {
+        setInterval(DrawDebugInfo, 100);
+    }
     
 }
 
@@ -209,7 +217,7 @@ function StartGame() {
         if (useDevOr) {
             orientControl.Init();
         }
-        if (document.getElementById("cbOrientChecked").style.visibility == "visible") {
+        if (document.getElementById("cbOrient").getAttribute("data-checked") == "true") {
             useDevOr = true;
         }
         else {
@@ -218,7 +226,6 @@ function StartGame() {
         gameOver = false;
         pause = false;
         document.getElementById("welcomeScreen").style.visibility = "hidden";
-        document.getElementById("cbOrientChecked").style.visibility = "hidden";
         document.getElementById("gameOverScreen").style.visibility = "hidden";
         document.getElementById("gameField").style.visibility = "visible";
 
@@ -307,9 +314,6 @@ function gameloop() {
         MoveMine();
         CrashDetection();
     }
-    if (debug) {
-        DrawDebugInfo();
-    }
     if (gameOver) {
         GameOver();
     }
@@ -319,7 +323,6 @@ function PauseGame() {
     if (!gameOver) {
         pause = !pause;
         if (pause) {
-            console.log(spawnClockTimer);
             spawnClockTimer.pause();
             spawnMineTimer.pause();
         }
@@ -404,9 +407,14 @@ function SpawnClock() {
     clock = document.createElementNS("http://www.w3.org/2000/svg", "use");
     clock.setAttribute("x", x);
     clock.setAttribute("y", y);
+    clock.setAttribute("width", "24");
+    clock.setAttribute("width", "24");
     clock.setAttributeNS("http://www.w3.org/1999/xlink", "href", "#clock");
 
     gameField.appendChild(clock);
+    clock.animate([
+      { transform: 'rotate(360deg)' },
+    ], clockDespawntime);
 
     if (spawnClockTimer != null) {
         spawnClockTimer.pause();
@@ -425,6 +433,12 @@ function DespawnClock() {
         spawnClockTimer = null;
     }
     spawnClockTimer = new Timer(SpawnClock, clockSpawntime);
+}
+
+function ClockAnimation(e) {
+    e.animate([
+      { transform: 'rotate(360deg)' },
+    ], clockDespawntime);
 }
 
 //Prüft auf Kollisionen mit allen Objekten
@@ -563,12 +577,15 @@ function FullScreenChanged() {
 }
 
 function CBOrientClicked() {
-    var x = document.getElementById("cbOrientChecked")
-    if (x.style.visibility == "hidden") {
-        x.style.visibility = "visible";
+    var cross = document.getElementById("cbOrientChecked");
+    var cb = document.getElementById("cbOrient");
+    if (cb.getAttribute("data-checked") == "true") {
+        cb.setAttribute("data-checked", "false");
+        cross.setAttribute("xlink:href", "");
     }
     else {
-        x.style.visibility = "hidden";
+        cb.setAttribute("data-checked", "true");
+        cross.setAttribute("xlink:href", "img/cross.png");
     }
 }
 
@@ -591,6 +608,16 @@ function DrawDebugInfo() {
     text.innerHTML += "yPos: " + Math.round(player.yPos*100)/100 + "<br>";
     text.innerHTML += "laser speed x: " + Math.round(laser.speed.x * 100) / 100 + " <br>";
     text.innerHTML += "laser speed y: " + Math.round(laser.speed.y * 100) / 100 + " <br>";
+    if (spawnMineTimer == null) {
+        text.innerHTML += "spawnMineTimer: " + "null" + " <br>";
+    } else {
+        text.innerHTML += "spawnMineTimer: " + spawnMineTimer.timerId + " <br>";
+    }
+    if (spawnClockTimer == null) {
+        text.innerHTML += "spawnClockTimer: " + "null" + " <br>";
+    } else {
+        text.innerHTML += "spawnClockTimer: " + spawnClockTimer.timerId + " <br>";
+    }
     text.innerHTML += "control up: " + control.up + " <br>";
     text.innerHTML += "control down: " + control.down + " <br>";
     text.innerHTML += "control left: " + control.left + " <br>";
@@ -601,6 +628,7 @@ function DrawDebugInfo() {
     text.innerHTML += "gp right: " + gpCtr.right + " <br>";
     text.innerHTML += "gp x: " + gpCtr.x + " <br>";
     text.innerHTML += "gp y: " + gpCtr.y + " <br>";
+    text.innerHTML += "DevOr enabled: " + useDevOr + " <br>";
     text.innerHTML += "Orient absolute: " + orientControl.absolute + " <br>";
     text.innerHTML += "Orient alpha: " + orientControl.alpha + " <br>";
     text.innerHTML += "Orient beta: " + orientControl.beta + " <br>";
