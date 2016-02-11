@@ -197,6 +197,10 @@ window.onload = function () {
     $('.btnStart').click(StartGame);
     $('#btnFscr').click(ChangeFullScreen);
     $('#cbOrient').click(CBOrientClicked);
+
+    if (window.mobilecheck()) {
+        CBOrientClicked();
+    }
     
 }
 
