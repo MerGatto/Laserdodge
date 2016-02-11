@@ -209,16 +209,16 @@ function StartGame() {
         if (useDevOr) {
             orientControl.Init();
         }
-        if (document.getElementById("cbOrientChecked").style.visibility == "visible") {
+        if (document.getElementById("cbOrient").getAttribute("data-checked") == "true") {
             useDevOr = true;
         }
         else {
             useDevOr = false;
         }
+        console.log(useDevOr);
         gameOver = false;
         pause = false;
         document.getElementById("welcomeScreen").style.visibility = "hidden";
-        document.getElementById("cbOrientChecked").style.visibility = "hidden";
         document.getElementById("gameOverScreen").style.visibility = "hidden";
         document.getElementById("gameField").style.visibility = "visible";
 
@@ -563,12 +563,15 @@ function FullScreenChanged() {
 }
 
 function CBOrientClicked() {
-    var x = document.getElementById("cbOrientChecked")
-    if (x.style.visibility == "hidden") {
-        x.style.visibility = "visible";
+    var cross = document.getElementById("cbOrientChecked");
+    var cb = document.getElementById("cbOrient");
+    if (cb.getAttribute("data-checked") == "true") {
+        cb.setAttribute("data-checked", "false");
+        cross.setAttribute("xlink:href", "");
     }
     else {
-        x.style.visibility = "hidden";
+        cb.setAttribute("data-checked", "true");
+        cross.setAttribute("xlink:href", "img/cross.png");
     }
 }
 
