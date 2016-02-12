@@ -328,7 +328,6 @@ function PauseGame() {
 
 function GameOver() {
     control.pause = false;
-    //ClearAllTimeOuts();
     clearInterval(gameLoopInterval);
     if (spawnClockTimer != null) {
         spawnClockTimer.pause();
