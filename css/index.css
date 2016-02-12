@@ -82,20 +82,16 @@ body {
     height: 100vh;
 }
 
-
-.btnStart:hover {
+.button:hover {
     cursor:pointer;
 }
 
-.btnStart:hover > rect {
-    fill: DeepSkyBlue;
+.menuButton {
+    color: lightskyblue;
 }
 
-#btnFscr:hover {
-    cursor: pointer;
-}
-
-#cbOrient:hover {
+.menuButton:hover {
+    color: deepskyblue;
     cursor: pointer;
 }
 

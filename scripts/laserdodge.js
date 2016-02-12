@@ -210,7 +210,6 @@ window.onload = function () {
 
 function StartGame() {
     if (gameOver) {
-        //ClearAllTimeOuts();
         if (window.mobilecheck()) {
             GoFullScreen();
         }
@@ -225,9 +224,8 @@ function StartGame() {
         }
         gameOver = false;
         pause = false;
-        document.getElementById("welcomeScreen").style.visibility = "hidden";
-        document.getElementById("gameOverScreen").style.visibility = "hidden";
-        document.getElementById("gameField").style.visibility = "visible";
+
+        ActivateMenu("game");
 
         ct = countdown;
         txtCt.textContent = ct;
@@ -346,7 +344,7 @@ function GameOver() {
         spawnMineTimer = null;
     }
     gameLoopInterval = null;
-    document.getElementById("gameOverScreen").style.visibility = "visible"
+    document.getElementById("gameOverScreen").setAttribute("visibility", "visible");
     document.getElementById("gameOverScore").textContent = "Sie haben "+score + " Punkte erzielt"
 }
 
@@ -412,9 +410,10 @@ function SpawnClock() {
     clock.setAttributeNS("http://www.w3.org/1999/xlink", "href", "#clock");
 
     gameField.appendChild(clock);
+    /*
     clock.animate([
       { transform: 'rotate(360deg)' },
-    ], clockDespawntime);
+    ], clockDespawntime);*/
 
     if (spawnClockTimer != null) {
         spawnClockTimer.pause();
