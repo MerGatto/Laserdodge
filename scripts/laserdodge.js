@@ -200,12 +200,7 @@ window.onload = function () {
 
     if (window.mobilecheck()) {
         CBOrientClicked();
-    }
-
-    if (debug) {
-        setInterval(DrawDebugInfo, 100);
-    }
-    
+    }    
 }
 
 function StartGame() {

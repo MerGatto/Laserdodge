@@ -1,4 +1,10 @@
-var debug = true;
+var debug = false;
+
+function ActivateDebugging() {
+    debug = true;
+    setInterval(DrawDebugInfo, 100);
+    DrawDebugInfo();
+}
 
 //Gibt ein paar nützliche Daten zum Debuggen aus
 function DrawDebugInfo() {
