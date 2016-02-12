@@ -6,9 +6,11 @@
     <title>LaserDodge</title>
     <link href="css/index.css" rel="stylesheet" />	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="scripts/debug.js"></script>	
     <script src="scripts/timer.js"></script>	
     <script src="scripts/config.js"></script>
 	<script src="scripts/controls.js"></script>
+    <script src="scripts/menus.js"></script>
     <script src="scripts/laserdodge.js"></script>	
 
 </head>
@@ -18,10 +20,38 @@
     </div>    
     <div id="debug"></div>
     <svg id="playground" class="centered" viewBox="0 0 640 640">
-        <rect x="0" y="0" width="640" height="640" fill="Lavender"></rect>
-        <g id="welcomeScreen" visibility="visible">
+        <defs>        
+        </defs>
+        <!--Background-->
+        <rect x="0" y="0" width="640" height="640" fill="Lavender"></rect> 
+
+        <!--Mainmenu-->
+        <g id="mainMenu" visibility="visible">
+            <text x="320" y="80" text-anchor="middle" font-size="52">Laserdodge</text>
+            <!--Menubuttons-->
+            <g transform="translate(220,160)">
+                <g class="button menuButton btnStart">
+                    <rect x="0" y="0" width="200" height="50" fill="currentColor"></rect>
+                    <text x="100" y="35" text-anchor="middle" fill="black" font-size="27">Spiel Starten!</text>
+                </g>
+                <g id="btnMStartMP" class="button">
+                    <rect x="0" y="75" width="200" height="50" fill="lightgrey"></rect>
+                    <text x="100" y="110" text-anchor="middle" fill="black" font-size="27">Multiplayer</text>
+                </g>
+                <g id="btnIntro" class="button menuButton">
+                    <rect x="0" y="150" width="200" height="50" fill="currentColor"></rect>
+                    <text x="100" y="185" text-anchor="middle" fill="black" font-size="27">Einführung</text>
+                </g>
+                <g id="btnOptions" class="button menuButton">
+                    <rect x="0" y="225" width="200" height="50" fill="currentColor"></rect>
+                    <text x="100" y="260" text-anchor="middle" fill="black" font-size="27">Optionen</text>
+                </g>
+            </g>
+        </g>
+        <!--Introduction-->
+        <g id="welcomeScreen" visibility="hidden">
             <text x="20" y="50" font-size="36">Einführung: </text>
-            <image xlink:href="img/player.png" x="44" y="90" width="24" height="24"></image>
+            <image xlink:href="img/player.png" x="52" y="90" width="24" height="24"></image>
             <text x="120" y="90" font-size="20">Die Spielfigur </text>
             <text x="120" y="120" font-size="20">Steuerung erfolgt mittels Pfeiltasten bzw. WASD </text>
 
@@ -42,19 +72,15 @@
             <text x="120" y="420" font-size="20">Eine Uhr </text>
             <text x="120" y="450" font-size="20">Bei Kontakt verringert sich die Geschwindigkeit des Lasers</text>
 
-            <g class="btnStart">
-                <rect x="20" y="550" width="200" height="50" fill="LightSkyBlue"></rect>
-                <text x="120" y="585" text-anchor="middle" font-size="27">Spiel starten!</text>
-            </g>
-            <g id="cbOrient" data-checked="false">
-                <rect x="330" y="560" height="30" width="30" fill="lightgrey" stroke="black" stroke-width="3"></rect>
-                <image id="cbOrientChecked" x="325" y="555" height="40" width="40" xlink:href=""></image>
-                <text x="380" y="580" text-anchor="start" font-size="24">Schwenksteuerung</text>
+            <g class ="button menuButton btnBack">
+                <rect x="20" y="550" width="200" height="50" fill="currentColor"></rect>
+                <text x="120" y="585" text-anchor="middle" font-size="27">Zurück</text>
             </g>
         </g>
+        <!--Gamefield-->
         <g id="gameField" visibility="hidden">
             <defs>
-                <image id="star" xlink:href="img/star.png" width="24" height="24"></image>
+                <image id="star" xlink:href="img/star.svg" fill="blue" width="24" height="24"></image>
                 <image id="mine" xlink:href="img/mine.png" width="24" height="24"></image>
                 <g id="clock">
                     <image xlink:href="img/nClock.png" width="24" height="24">
@@ -73,22 +99,42 @@
             <text id="score" x="630" y="30" fill="blue" text-anchor="end" font-family="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" font-size="32px">Score</text>
             <text id="countdown" x="320" y="320" font-size="64px" text-anchor="middle" fill="red" stroke="black" stroke-width="2"></text>
         </g>
-
+        <!--Optionsmenu-->
+        <g id="optionsMenu" visibility="hidden">
+            <text x="320" y="80" text-anchor="middle" font-size="52">Optionen</text>
+            <!--Menubuttons-->
+            <g transform="translate(100,160)">
+                <g id="cbOrient" class="button" data-checked="false">
+                    <rect x="0" y="0" height="30" width="30" fill="lightgrey" stroke="black" stroke-width="3"></rect>
+                    <image id="cbOrientChecked" x="-5" y="-5" height="40" width="40" xlink:href=""></image>
+                    <text x="50" y="20" text-anchor="start" font-size="24">Schwenksteuerung</text>
+                </g>
+                <g class="button menuButton btnBack">
+                    <rect x="0" y="300" width="200" height="50" fill="currentColor"></rect>
+                    <text x="100" y="335" text-anchor="middle" font-size="27">Zurück</text>
+                </g>
+            </g>
+        </g>
+        <!--GameOver screen-->
         <g id="gameOverScreen" visibility="hidden">
             <rect x="80" y="80" width="480" height="480" fill="Lavender" stroke="black" stroke-width="2"></rect>
             <text x="320" y="170" text-anchor="middle" font-size="75">Game Over</text>
             <text id="gameOverScore" x="320" y="260" text-anchor="middle" font-size="27"></text>
-            <text x="320" y="340" text-anchor="middle" font-size="27">Mehr Glück beim nächsten mal!</text>
-            <g class="btnStart">
-                <rect x="220" y="420" width="200" height="50" fill="LightSkyBlue"></rect>
-                <text x="320" y="455" text-anchor="middle" font-size="27">Neues Spiel!</text>
+            <text x="320" y="330" text-anchor="middle" font-size="27">Mehr Glück beim nächsten mal!</text>
+            <g class="button menuButton btnStart">
+                <rect x="220" y="370" width="200" height="50" fill="currentColor"></rect>
+                <text x="320" y="405" text-anchor="middle" font-size="27">Neues Spiel!</text>
+            </g>
+            <g class="button menuButton btnBack">
+                <rect x="220" y="445" width="200" height="50" fill="currentColor"></rect>
+                <text x="320" y="480" text-anchor="middle" font-size="27">Hauptmenü</text>
             </g>
         </g>
-        <g id="btnFscr">
+        <!--Fullscreen Icon-->
+        <g id="btnFscr" class="button">
             <rect x="600" y="600" width="25" height="25" fill="none"></rect>
             <image xlink:href="img/fullscreen.png" x="600" y="600" width="25" height="25" ></image>
         </g>
-
     </svg>
     <div id="footer">
         <small>© 2015 Kepplinger Harald</small>
