@@ -5,6 +5,10 @@ Features:
  - Gamepad support
  - Fullscreen mode
 
+Coming Soon:
+ - Mobile Support
+ - Multiplayer!
+
 The Goal of the game is to collect as many stars as possible before the laser gets you.
 
 Watches will give you some time by slowing down the lasers.
