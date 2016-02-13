@@ -1,4 +1,5 @@
-﻿var gameOver = true;
+﻿" use strict";
+var gameOver = true;
 var pause = false;
 var fullscreen = false;
 var score = 0;
@@ -22,7 +23,7 @@ var mine = null;
 
 var gameLoopInterval = null;
 var spawnMineTimer = null;
-var spawnClockTimer = null;
+var spawnClockTimer = null; 
 
 var player = {
     obj: null,
@@ -140,7 +141,6 @@ var player = {
         
         player.SetX(this.xPos);
         player.SetY(this.yPos);
-        //moveSection(this.obj, this.xPos, this.yPos);
     }
 };
 
@@ -242,7 +242,7 @@ function init() {
     player.speed.y = 0;
 
     score = 0;
-    $('#score').html(score);
+    $('#score').html(score.toString());
 
     var x;
     var y;
@@ -267,8 +267,7 @@ function init() {
 
 	    laser.speed.y = -laserStartSpeed;
 	}
-
-    frameCount = 0;
+    
     if(mine!= null){
         DespawnMine();
     }
@@ -449,7 +448,7 @@ function CrashDetection() {
     if (player.GotHit(starbb.x, starbb.y, starbb.x + starbb.width, starbb.y + starbb.height)) {
         //console.log("hit star");
         score += 10;
-        $('#score').html(score);
+        $('#score').html(score.toString());
         gameField.removeChild(star);
         spawnStar();
     }
@@ -499,7 +498,6 @@ function MoveMine() {
 
 //Berechnet die Überschneidung zweiere Eindimensionaler Linien 
 function IntersectionLineWidth(sp1, ep1, sp2, ep2) {
-    var res;
     if (sp1 < sp2) {
         return ep1 - sp2;
     } else {
@@ -542,15 +540,15 @@ function ChangeFullScreen() {
     }
 }
 
+// go full-screen
 function GoFullScreen() {
-    // go full-screen
     if (svg_playground.requestFullscreen) {
         svg_playground.requestFullscreen();
     } else if (svg_playground.webkitRequestFullscreen) {
         svg_playground.webkitRequestFullscreen();
     } else if (svg_playground.mozRequestFullScreen) {
         svg_playground.mozRequestFullScreen();
-    } else if (i.msRequestFullscreen) {
+    } else if (svg_playground.msRequestFullscreen) {
         svg_playground.msRequestFullscreen();
     }
 }

@@ -6,7 +6,7 @@ function ActivateDebugging() {
     DrawDebugInfo();
 }
 
-//Gibt ein paar nützliche Daten zum Debuggen aus
+//Gibt ein paar nÃ¼tzliche Daten zum Debuggen aus
 function DrawDebugInfo() {
     var text = document.getElementById("debug");
 

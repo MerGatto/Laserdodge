@@ -11,7 +11,6 @@ $(document).ready(function () {
     $('#btnIntro').click(function () { ActivateMenu("intro"); }); 
     $('.btnBack').click(function () { ActivateMenu("main"); }); 
     $('#btnOptions').click(function () { ActivateMenu("options"); });
-
 });
 
 function ActivateMenu(key) {
@@ -20,5 +19,3 @@ function ActivateMenu(key) {
     });
     menus.get(key).setAttribute("visibility", "visible");
 }
-
-
