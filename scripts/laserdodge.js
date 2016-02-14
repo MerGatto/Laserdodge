@@ -269,11 +269,6 @@ function init() {
 
 	    laser.speed.y = -laserStartSpeed;
 	}
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> origin/master
     if(mine!= null){
         DespawnMine();
     }

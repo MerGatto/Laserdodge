@@ -146,8 +146,21 @@ body {
     }
 }
 
-@media all and (orientation:landscape) and  (max-height: 500px) {
+@media all and (orientation:landscape) and  (max-height: 620px) {
     #footer {
         visibility: hidden;
+    }
+}
+
+@media all and (orientation:landscape) and  (max-height: 400px) {
+    #headline {
+        visibility: hidden;
+    }
+    
+    
+    .centered {
+        top: 0;
+        bottom: 0;
+        margin: auto;
     }
 }
