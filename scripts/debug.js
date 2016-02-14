@@ -6,7 +6,7 @@ function ActivateDebugging() {
     DrawDebugInfo();
 }
 
-//Gibt ein paar nützliche Daten zum Debuggen aus
+//Gibt ein paar nÃ¼tzliche Daten zum Debuggen aus
 function DrawDebugInfo() {
     var text = document.getElementById("debug");
 
@@ -17,15 +17,15 @@ function DrawDebugInfo() {
     text.innerHTML += "yPos: " + Math.round(player.yPos * 100) / 100 + "<br>";
     text.innerHTML += "laser speed x: " + Math.round(laser.speed.x * 100) / 100 + " <br>";
     text.innerHTML += "laser speed y: " + Math.round(laser.speed.y * 100) / 100 + " <br>";
-    if (spawnMineTimer == null) {
+    if (mineSpawnTimer == null) {
         text.innerHTML += "spawnMineTimer: " + "null" + " <br>";
     } else {
-        text.innerHTML += "spawnMineTimer: " + spawnMineTimer.timerId + " <br>";
+        text.innerHTML += "spawnMineTimer: " + mineSpawnTimer.timerId + " <br>";
     }
-    if (spawnClockTimer == null) {
+    if (clockSpawnTimer == null) {
         text.innerHTML += "spawnClockTimer: " + "null" + " <br>";
     } else {
-        text.innerHTML += "spawnClockTimer: " + spawnClockTimer.timerId + " <br>";
+        text.innerHTML += "spawnClockTimer: " + clockSpawnTimer.timerId + " <br>";
     }
     text.innerHTML += "control up: " + control.up + " <br>";
     text.innerHTML += "control down: " + control.down + " <br>";
