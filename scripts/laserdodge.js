@@ -1,4 +1,4 @@
-﻿" use strict";
+﻿"use strict";
 var gameOver = true;
 var pause = false;
 var fullscreen = false;
@@ -22,8 +22,10 @@ var clock = null;
 var mine = null;
 
 var gameLoopInterval = null;
-var spawnMineTimer = null;
-var spawnClockTimer = null; 
+var mineSpawnTimer = null;
+var mineDespawnTimer = null;
+var clockSpawnTimer = null;
+var clockDespawnTimer = null;
 
 var player = {
     obj: null,
@@ -278,6 +280,20 @@ function init() {
         gameField.removeChild(star);
         star = null;
     }
+    
+    if(mineSpawnTimer == null) {
+        mineSpawnTimer = new Timer(SpawnMine, mineSpawntime);
+    }
+    if(mineDespawnTimer == null) {
+        mineDespawnTimer = new Timer(DespawnMine, mineDespawntime);
+    }    
+    if(clockSpawnTimer == null) {
+        clockSpawnTimer = new Timer(SpawnClock, clockSpawntime);
+    }
+    if(clockDespawnTimer == null) {
+        clockDespawnTimer = new Timer(DespawnClock, clockDespawntime);
+    }
+    
     spawnStar();
 }
 
@@ -290,8 +306,8 @@ function DoCountDown() {
         txtCt.textContent = "";
 
         gameLoopInterval = setInterval(gameloop, 1000 / GAMESPEED);
-        spawnMineTimer = new Timer(SpawnMine, mineSpawntime);
-        spawnClockTimer = new Timer(SpawnClock, clockSpawntime);
+        mineSpawnTimer.restart();
+        clockSpawnTimer.restart();
     }
 }
 
@@ -315,12 +331,16 @@ function PauseGame() {
     if (!gameOver) {
         pause = !pause;
         if (pause) {
-            spawnClockTimer.pause();
-            spawnMineTimer.pause();
+            clockSpawnTimer.pause();
+            clockDespawnTimer.pause();
+            mineSpawnTimer.pause();
+            mineDespawnTimer.pause();
         }
         else {
-            spawnClockTimer.resume();
-            spawnMineTimer.resume();
+            clockSpawnTimer.resume();
+            mineSpawnTimer.resume();
+            clockDespawnTimer.pause();
+            mineDespawnTimer.pause();
         }
     }
 }
@@ -328,14 +348,10 @@ function PauseGame() {
 function GameOver() {
     control.pause = false;
     clearInterval(gameLoopInterval);
-    if (spawnClockTimer != null) {
-        spawnClockTimer.pause();
-        spawnClockTimer = null;
-    }
-    if (spawnMineTimer != null) {
-        spawnMineTimer.pause();
-        spawnMineTimer = null;
-    }
+    clockSpawnTimer.pause();
+    clockDespawnTimer.pause();
+    mineSpawnTimer.pause();
+    mineDespawnTimer.pause();
     gameLoopInterval = null;
     document.getElementById("gameOverScreen").setAttribute("visibility", "visible");
     document.getElementById("gameOverScore").textContent = "Sie haben "+score + " Punkte erzielt"
@@ -369,11 +385,8 @@ function SpawnMine() {
 
     gameField.appendChild(mine);
 
-    if (spawnMineTimer != null) {
-        spawnMineTimer.pause;
-        spawnMineTimer = null;
-    }
-    spawnMineTimer = new Timer(DespawnMine, mineDespawntime);
+    mineSpawnTimer.pause();
+    mineDespawnTimer.restart()
 }
 
 function DespawnMine() {
@@ -381,11 +394,8 @@ function DespawnMine() {
         gameField.removeChild(mine);
         mine = null;
     }
-    if (spawnMineTimer != null) {
-        spawnMineTimer.pause;
-        spawnMineTimer = null;
-    }
-    spawnMineTimer = new Timer(SpawnMine, mineSpawntime);
+    mineDespawnTimer.pause();
+    mineSpawnTimer.restart();    
 }
 
 function SpawnClock() {
@@ -403,16 +413,10 @@ function SpawnClock() {
     clock.setAttributeNS("http://www.w3.org/1999/xlink", "href", "#clock");
 
     gameField.appendChild(clock);
-    /*
-    clock.animate([
-      { transform: 'rotate(360deg)' },
-    ], clockDespawntime);*/
+    //ClockAnimation(clock);
 
-    if (spawnClockTimer != null) {
-        spawnClockTimer.pause();
-        spawnClockTimer = null;
-    }
-    spawnClockTimer = new Timer(DespawnClock, clockDespawntime);
+    clockSpawnTimer.pause();
+    clockDespawnTimer.restart();
 }
 
 function DespawnClock() {
@@ -420,11 +424,8 @@ function DespawnClock() {
         gameField.removeChild(clock);
         clock = null;
     }
-    if (spawnClockTimer != null) {
-        spawnClockTimer.pause();
-        spawnClockTimer = null;
-    }
-    spawnClockTimer = new Timer(SpawnClock, clockSpawntime);
+    clockDespawnTimer.pause();
+    clockSpawnTimer.restart();
 }
 
 function ClockAnimation(e) {
