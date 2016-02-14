@@ -6,11 +6,12 @@
 
 body {
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 #debug {
-    overflow: auto;
+    height: 100%;
+    overflow-y: auto;
 }
 
 #headline {
