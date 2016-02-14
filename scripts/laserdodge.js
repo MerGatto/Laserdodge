@@ -149,7 +149,7 @@ var player = {
 var laser = {
     vert: null,
     horiz: null,
-    width: 2,
+    width: 4,
     speed: {
         x: 0,
         y: 0,
