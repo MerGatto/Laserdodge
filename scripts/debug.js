@@ -1,12 +1,29 @@
 var debug = false;
 
+$(document).ready(function () {
+   if(getQueryVariable("debug") == "true") {
+       ActivateDebugging();
+   } 
+});
+
+function getQueryVariable(variable) {
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] == variable) {
+      return pair[1];
+    }
+  } 
+}
+
 function ActivateDebugging() {
     debug = true;
     setInterval(DrawDebugInfo, 100);
     DrawDebugInfo();
 }
 
-//Gibt ein paar nützliche Daten zum Debuggen aus
+//Gibt ein paar nÃ¼tzliche Daten zum Debuggen aus
 function DrawDebugInfo() {
     var text = document.getElementById("debug");
 
@@ -17,15 +34,15 @@ function DrawDebugInfo() {
     text.innerHTML += "yPos: " + Math.round(player.yPos * 100) / 100 + "<br>";
     text.innerHTML += "laser speed x: " + Math.round(laser.speed.x * 100) / 100 + " <br>";
     text.innerHTML += "laser speed y: " + Math.round(laser.speed.y * 100) / 100 + " <br>";
-    if (spawnMineTimer == null) {
+    if (mineSpawnTimer == null) {
         text.innerHTML += "spawnMineTimer: " + "null" + " <br>";
     } else {
-        text.innerHTML += "spawnMineTimer: " + spawnMineTimer.timerId + " <br>";
+        text.innerHTML += "spawnMineTimer: " + mineSpawnTimer.timerId + " <br>";
     }
-    if (spawnClockTimer == null) {
+    if (clockSpawnTimer == null) {
         text.innerHTML += "spawnClockTimer: " + "null" + " <br>";
     } else {
-        text.innerHTML += "spawnClockTimer: " + spawnClockTimer.timerId + " <br>";
+        text.innerHTML += "spawnClockTimer: " + clockSpawnTimer.timerId + " <br>";
     }
     text.innerHTML += "control up: " + control.up + " <br>";
     text.innerHTML += "control down: " + control.down + " <br>";

@@ -1,3 +1,4 @@
+"use strict";
 var KEY_UP = 38;
 var KEY_W = 87;
 var KEY_DOWN = 40;

@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "ES6"
+    },
+    "files": [
+        "scripts/config.js",
+        "scripts/controls.js",
+        "scripts/debug.js",
+        "scripts/laserdodge.js",
+        "scripts/menus.js",
+        "scripts/timer.js",
+        "typings/jquery/jquery.d.ts"
+    ]
+}
