@@ -1,4 +1,5 @@
-﻿var gameOver = true;
+﻿"use strict";
+var gameOver = true;
 var pause = false;
 var fullscreen = false;
 var score = 0;
@@ -268,7 +269,6 @@ function init() {
 	    laser.speed.y = -laserStartSpeed;
 	}
 
-    frameCount = 0;
     if(mine!= null){
         DespawnMine();
     }

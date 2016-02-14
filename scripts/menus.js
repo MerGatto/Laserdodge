@@ -1,3 +1,4 @@
+"use strict";
 var menus = new Map();
 
 $(document).ready(function () {
