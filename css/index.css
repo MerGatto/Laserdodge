@@ -9,6 +9,10 @@ body {
     overflow: hidden;
 }
 
+#debug {
+    overflow: auto;
+}
+
 #headline {
     width: 120vw;
     padding: 10px;
