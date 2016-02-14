@@ -1,4 +1,5 @@
-﻿var gameOver = true;
+﻿"use strict";
+var gameOver = true;
 var pause = false;
 var fullscreen = false;
 var score = 0;
@@ -21,8 +22,10 @@ var clock = null;
 var mine = null;
 
 var gameLoopInterval = null;
-var spawnMineTimer = null;
-var spawnClockTimer = null;
+var mineSpawnTimer = null;
+var mineDespawnTimer = null;
+var clockSpawnTimer = null;
+var clockDespawnTimer = null;
 
 var player = {
     obj: null,
@@ -140,7 +143,6 @@ var player = {
         
         player.SetX(this.xPos);
         player.SetY(this.yPos);
-        //moveSection(this.obj, this.xPos, this.yPos);
     }
 };
 
@@ -242,7 +244,7 @@ function init() {
     player.speed.y = 0;
 
     score = 0;
-    $('#score').html(score);
+    $('#score').html(score.toString());
 
     var x;
     var y;
@@ -267,8 +269,7 @@ function init() {
 
 	    laser.speed.y = -laserStartSpeed;
 	}
-
-    frameCount = 0;
+    
     if(mine!= null){
         DespawnMine();
     }
@@ -279,6 +280,20 @@ function init() {
         gameField.removeChild(star);
         star = null;
     }
+    
+    if(mineSpawnTimer == null) {
+        mineSpawnTimer = new Timer(SpawnMine, mineSpawntime);
+    }
+    if(mineDespawnTimer == null) {
+        mineDespawnTimer = new Timer(DespawnMine, mineDespawntime);
+    }    
+    if(clockSpawnTimer == null) {
+        clockSpawnTimer = new Timer(SpawnClock, clockSpawntime);
+    }
+    if(clockDespawnTimer == null) {
+        clockDespawnTimer = new Timer(DespawnClock, clockDespawntime);
+    }
+    
     spawnStar();
 }
 
@@ -291,8 +306,8 @@ function DoCountDown() {
         txtCt.textContent = "";
 
         gameLoopInterval = setInterval(gameloop, 1000 / GAMESPEED);
-        spawnMineTimer = new Timer(SpawnMine, mineSpawntime);
-        spawnClockTimer = new Timer(SpawnClock, clockSpawntime);
+        mineSpawnTimer.restart();
+        clockSpawnTimer.restart();
     }
 }
 
@@ -316,28 +331,27 @@ function PauseGame() {
     if (!gameOver) {
         pause = !pause;
         if (pause) {
-            spawnClockTimer.pause();
-            spawnMineTimer.pause();
+            clockSpawnTimer.pause();
+            clockDespawnTimer.pause();
+            mineSpawnTimer.pause();
+            mineDespawnTimer.pause();
         }
         else {
-            spawnClockTimer.resume();
-            spawnMineTimer.resume();
+            clockSpawnTimer.resume();
+            mineSpawnTimer.resume();
+            clockDespawnTimer.pause();
+            mineDespawnTimer.pause();
         }
     }
 }
 
 function GameOver() {
     control.pause = false;
-    //ClearAllTimeOuts();
     clearInterval(gameLoopInterval);
-    if (spawnClockTimer != null) {
-        spawnClockTimer.pause();
-        spawnClockTimer = null;
-    }
-    if (spawnMineTimer != null) {
-        spawnMineTimer.pause();
-        spawnMineTimer = null;
-    }
+    clockSpawnTimer.pause();
+    clockDespawnTimer.pause();
+    mineSpawnTimer.pause();
+    mineDespawnTimer.pause();
     gameLoopInterval = null;
     document.getElementById("gameOverScreen").setAttribute("visibility", "visible");
     document.getElementById("gameOverScore").textContent = "Sie haben "+score + " Punkte erzielt"
@@ -371,11 +385,8 @@ function SpawnMine() {
 
     gameField.appendChild(mine);
 
-    if (spawnMineTimer != null) {
-        spawnMineTimer.pause;
-        spawnMineTimer = null;
-    }
-    spawnMineTimer = new Timer(DespawnMine, mineDespawntime);
+    mineSpawnTimer.pause();
+    mineDespawnTimer.restart()
 }
 
 function DespawnMine() {
@@ -383,11 +394,8 @@ function DespawnMine() {
         gameField.removeChild(mine);
         mine = null;
     }
-    if (spawnMineTimer != null) {
-        spawnMineTimer.pause;
-        spawnMineTimer = null;
-    }
-    spawnMineTimer = new Timer(SpawnMine, mineSpawntime);
+    mineDespawnTimer.pause();
+    mineSpawnTimer.restart();    
 }
 
 function SpawnClock() {
@@ -405,16 +413,10 @@ function SpawnClock() {
     clock.setAttributeNS("http://www.w3.org/1999/xlink", "href", "#clock");
 
     gameField.appendChild(clock);
-    /*
-    clock.animate([
-      { transform: 'rotate(360deg)' },
-    ], clockDespawntime);*/
+    //ClockAnimation(clock);
 
-    if (spawnClockTimer != null) {
-        spawnClockTimer.pause();
-        spawnClockTimer = null;
-    }
-    spawnClockTimer = new Timer(DespawnClock, clockDespawntime);
+    clockSpawnTimer.pause();
+    clockDespawnTimer.restart();
 }
 
 function DespawnClock() {
@@ -422,11 +424,8 @@ function DespawnClock() {
         gameField.removeChild(clock);
         clock = null;
     }
-    if (spawnClockTimer != null) {
-        spawnClockTimer.pause();
-        spawnClockTimer = null;
-    }
-    spawnClockTimer = new Timer(SpawnClock, clockSpawntime);
+    clockDespawnTimer.pause();
+    clockSpawnTimer.restart();
 }
 
 function ClockAnimation(e) {
@@ -450,7 +449,7 @@ function CrashDetection() {
     if (player.GotHit(starbb.x, starbb.y, starbb.x + starbb.width, starbb.y + starbb.height)) {
         //console.log("hit star");
         score += 10;
-        $('#score').html(score);
+        $('#score').html(score.toString());
         gameField.removeChild(star);
         spawnStar();
     }
@@ -500,7 +499,6 @@ function MoveMine() {
 
 //Berechnet die Überschneidung zweiere Eindimensionaler Linien 
 function IntersectionLineWidth(sp1, ep1, sp2, ep2) {
-    var res;
     if (sp1 < sp2) {
         return ep1 - sp2;
     } else {
@@ -543,15 +541,15 @@ function ChangeFullScreen() {
     }
 }
 
+// go full-screen
 function GoFullScreen() {
-    // go full-screen
     if (svg_playground.requestFullscreen) {
         svg_playground.requestFullscreen();
     } else if (svg_playground.webkitRequestFullscreen) {
         svg_playground.webkitRequestFullscreen();
     } else if (svg_playground.mozRequestFullScreen) {
         svg_playground.mozRequestFullScreen();
-    } else if (i.msRequestFullscreen) {
+    } else if (svg_playground.msRequestFullscreen) {
         svg_playground.msRequestFullscreen();
     }
 }

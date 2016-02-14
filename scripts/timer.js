@@ -1,16 +1,22 @@
 function Timer(callback, delay) {
-    var start, remaining = delay;
+    this.start;
+    this.remaining = delay;
+    this.time = delay;
 
     this.pause = function () {
-        window.clearTimeout(this.timerId);
-        remaining -= new Date() - start;
+        clearTimeout(this.timerId);
+        this.remaining -= performance.now() - this.start;
     };
 
     this.resume = function () {
-        start = new Date();
-        window.clearTimeout(this.timerId);
-        this.timerId = window.setTimeout(callback, remaining);
+        this.start = performance.now();
+        clearTimeout(this.timerId);
+        this.timerId = window.setTimeout(callback, this.remaining);
     };
 
-    this.resume();
+    this.restart = function() {
+        this.start = performance.now();
+        clearTimeout(this.timerId);
+        this.timerId = window.setTimeout(callback, this.time);        
+    }
 }
